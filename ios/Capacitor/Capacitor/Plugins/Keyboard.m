@@ -19,7 +19,7 @@
 #import "CAPBridgedPlugin.h"
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
-#import <CapacitorFellow/Capacitor-Swift.h>
+#import <CapacitorFellow/CapacitorFellow-Swift.h>
 
 typedef enum : NSUInteger {
   ResizeNone,
