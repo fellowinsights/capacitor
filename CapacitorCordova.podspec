@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "CapacitorCordova"
+  s.name         = "CapacitorCordovaFellow"
   s.module_name = 'Cordova'
   s.version      = '1.1.3'
   s.summary      = "Capacitor Cordova Compatibility Layer"

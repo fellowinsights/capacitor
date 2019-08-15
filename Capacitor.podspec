@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name = 'Capacitor'
+  s.name = 'CapacitorFellow'
   s.version = '1.1.3'
   s.summary = 'Capacitor for iOS'
 	s.social_media_url = 'http://twitter.com/getcapacitor'
