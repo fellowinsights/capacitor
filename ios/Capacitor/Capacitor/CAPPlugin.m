@@ -1,5 +1,5 @@
 #import "CAPPlugin.h"
-#import <Capacitor/Capacitor-Swift.h>
+#import <CapacitorFellow/Capacitor-Swift.h>
 
 #import <Foundation/Foundation.h>
 
