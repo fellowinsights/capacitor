@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'CapacitorFellow'
-  s.version = '1.1.12'
+  s.version = '1.1.13'
   s.summary = 'Capacitor for iOS'
 	s.social_media_url = 'http://twitter.com/getcapacitor'
   s.license = 'MIT'
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target  = '11.0'
   s.authors = { 'Ionic Team' => 'hi@ionicframework.com' }
   s.source = { :git => 'https://github.com/fellowinsights/capacitor.git', :tag => s.version.to_s }
-  s.source_files = 'ios/Capacitor/Capacitor/*.{swift,h,m}', 'ios/Capacitor/Capacitor/Plugins/*.{swift,h,m}', 'ios/Capacitor/Capacitor/Plugins/**/*.{swift,h,m}'
-  s.dependency 'CapacitorCordovaFellow', '1.1.12'
+  s.source_files = 'ios/Capacitor/CapacitorFellow/*.{swift,h,m}', 'ios/Capacitor/CapacitorFellow/Plugins/*.{swift,h,m}', 'ios/Capacitor/CapacitorFellow/Plugins/**/*.{swift,h,m}'
+  s.dependency 'CapacitorCordovaFellow', '1.1.13'
   s.swift_version = '4.2'
 end
