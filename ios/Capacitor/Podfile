@@ -1,7 +1,7 @@
 
-target 'Capacitor' do
+target 'CapacitorFellow' do
   use_frameworks!
-  pod 'CapacitorCordova', :path => '../../'
+  pod 'CapacitorCordovaFellow', :path => '../../'
   target 'CapacitorTests' do
     inherit! :search_paths
     
