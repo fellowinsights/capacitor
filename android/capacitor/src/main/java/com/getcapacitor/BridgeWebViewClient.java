@@ -17,6 +17,20 @@ public class BridgeWebViewClient extends WebViewClient {
     }
 
     @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        Bridge.inject(view, bridge.getJSInjector());
+        super.onPageStarted(view, url, favicon);
+    }
+
+    @Override
+    public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+        if (isReload) {
+            Bridge.inject(view, bridge.getJSInjector());
+        }
+        super.doUpdateVisitedHistory(view, url, isReload);
+    }
+
+    @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         return bridge.getLocalServer().shouldInterceptRequest(request);
     }
@@ -43,11 +57,5 @@ public class BridgeWebViewClient extends WebViewClient {
                 listener.onPageLoaded(view);
             }
         }
-    }
-
-    @Override
-    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        super.onPageStarted(view, url, favicon);
-        bridge.reset();
     }
 }
