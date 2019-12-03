@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.graphics.Color;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Base64;
 import android.util.Log;
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
@@ -168,6 +170,18 @@ public class Bridge {
     this.loadWebView();
   }
 
+  private static void inject(WebView webView, JSInjector injector) {
+    String inject = injector.getScriptString();
+
+    String encoded = Base64.encodeToString(inject.getBytes(), Base64.NO_WRAP);
+    webView.loadUrl("javascript:(function() {" +
+      "console.log('INJECTING CAPACITOR');" +
+      "if (!window.Capacitor || !window.Capacitor.isNative) {" +
+      "  eval(window.atob('" + encoded + "'));" +
+      "}" +
+      "})()");
+  }
+
   private void loadWebView() {
     appUrlConfig = Config.getString("server.url");
     String[] appAllowNavigationConfig = Config.getArray("server.allowNavigation");
@@ -217,6 +231,20 @@ public class Bridge {
       @Override
       public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         return localServer.shouldInterceptRequest(request);
+      }
+
+      @Override
+      public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        Bridge.inject(view, getJSInjector());
+        super.onPageStarted(view, url, favicon);
+      }
+
+      @Override
+      public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+        if (isReload) {
+          Bridge.inject(view, getJSInjector());
+        }
+        super.doUpdateVisitedHistory(view, url, isReload);
       }
 
       @Override
