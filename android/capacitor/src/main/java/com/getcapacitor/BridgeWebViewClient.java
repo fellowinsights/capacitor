@@ -1,5 +1,6 @@
 package com.getcapacitor;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -11,6 +12,20 @@ public class BridgeWebViewClient extends WebViewClient {
 
   public BridgeWebViewClient(Bridge bridge) {
     this.bridge = bridge;
+  }
+
+  @Override
+  public void onPageStarted(WebView view, String url, Bitmap favicon) {
+    Bridge.inject(view, bridge.getJSInjector());
+    super.onPageStarted(view, url, favicon);
+  }
+
+  @Override
+  public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+    if (isReload) {
+      Bridge.inject(view, bridge.getJSInjector());
+    }
+    super.doUpdateVisitedHistory(view, url, isReload);
   }
 
   @Override
@@ -28,5 +43,4 @@ public class BridgeWebViewClient extends WebViewClient {
   public boolean shouldOverrideUrlLoading(WebView view, String url) {
     return bridge.launchIntent(Uri.parse(url));
   }
-
 }
