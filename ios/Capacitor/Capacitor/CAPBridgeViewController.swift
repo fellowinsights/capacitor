@@ -282,6 +282,22 @@ public class CAPBridgeViewController: UIViewController, CAPBridgeDelegate, WKScr
   public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
     CAPLog.print("⚡️  WebView failed provisional navigation")
     CAPLog.print("⚡️  Error: " + error.localizedDescription)
+
+    if let info = error._userInfo as? [String: Any] {
+      if let urlString = info["NSErrorFailingURLStringKey"] as? String {
+        var components = URLComponents()
+        components.scheme = "capacitor"
+        components.host = "localhost"
+        components.queryItems = [
+          URLQueryItem(name: "prev", value: urlString),
+        ]
+
+        let myURL = components.url;
+
+        let myRequest = URLRequest(url: myURL!)
+        webView.load(myRequest)
+      }
+    }
   }
 
   public func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
