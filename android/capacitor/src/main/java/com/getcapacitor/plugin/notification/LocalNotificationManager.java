@@ -35,7 +35,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Iterator;
 
 /**
  * Contains implementations for all notification actions
@@ -209,7 +209,30 @@ public class LocalNotificationManager {
               .setShowWhen(true);
     }
 
-    mBuilder.setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+    JSObject extra = localNotification.getExtra();
+    if (extra != null) {
+      Iterator<String> keys = extra.keys();
+      Bundle bundle = new Bundle();
+
+      while (keys.hasNext()) {
+        String key = keys.next();
+
+        try {
+          Object value = extra.get(key);
+
+          if (value != null) {
+            bundle.putString(key, value.toString());
+          }
+        } catch (JSONException e) {
+          call.reject("Failed to get extras at key '" + key + "': " + e.getMessage());
+          return;
+        }
+      }
+
+      mBuilder.addExtras(bundle);
+    }
+
+    mBuilder.setVisibility(Notification.VISIBILITY_PRIVATE);
     mBuilder.setOnlyAlertOnce(true);
 
     mBuilder.setSmallIcon(localNotification.getSmallIcon(context, getDefaultSmallIcon(context)));
